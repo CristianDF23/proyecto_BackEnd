@@ -1,0 +1,24 @@
+[
+  {
+    "title": "producto 2",
+    "description": "computadora Acer",
+    "price": 124000,
+    "thumbnail": "computadoraAcer.jpg",
+    "code": "C00003",
+    "stock": 10,
+    "category": "computadora",
+    "status": true,
+    "id": "9797c0d5-8460-4046-bb55-a9749344aad7"
+  },
+  {
+    "title": "producto 1",
+    "description": "computadora Acer",
+    "price": 124000,
+    "thumbnail": "computadoraAcer.jpg",
+    "code": "C0001",
+    "stock": 10,
+    "category": "computadora",
+    "status": true,
+    "id": "1b13a33b-fcbe-4e2f-a251-5ceef8c5460a"
+  }
+]
