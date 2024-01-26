@@ -1,0 +1,13 @@
+<div class="container mt-5 d-flex gap-5 flex-wrap">
+    {{#each products}}
+    <div class="card rounded-0" style="width: 18rem;">
+        <img src={{this.thumbnail}} class="card-img-top" alt={{this.thumbnail}}>
+        <div class="card-body">
+            <h5 class="card-title">{{this.title}}</h5>
+            <p class="card-text">{{this.description}}</p>
+            <p class="card-text">${{this.price}}</p>
+            <a href="#" class="btn bg-danger text-white rounded-0 fs-6">Ver Producto</a>
+        </div>
+    </div>
+    {{/each}}
+</div>
