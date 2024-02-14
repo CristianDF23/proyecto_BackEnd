@@ -1,20 +1,18 @@
 import { Router } from "express";
-import { CartManager } from "../models/cartManager.js";
+import CartsManagerMongo from "../dao/MongoDB/class/cartsManagerMongo.js";
 
-const cartManager = new CartManager('./src/data/cart.json');
+const newCart = new CartsManagerMongo()
 
 const cartRoute = Router()
 
 cartRoute.post('/', async (req, res) => {
-    const create = await cartManager.createCart();
-    if (create) {
-        res.status(201).send('Carrito creado correctamente')
-    }
+    await newCart.createCart(req.body);
+    res.status(201).send("Carrito Creado")
 })
 
 cartRoute.get('/:cid', async (req, res) => {
     const { cid } = req.params
-    const allProducts = await cartManager.getCartProducts(cid)
+    const allProducts = await newCart.getCartProducts(cid)
     console.log(allProducts);
     res.send(allProducts)
 })
@@ -22,8 +20,8 @@ cartRoute.get('/:cid', async (req, res) => {
 cartRoute.post('/:cid/products/:pid', async (req, res) => {
     const { cid } = req.params;
     const { pid } = req.params;
-    await cartManager.addProduct(cid, pid)
-    res.status(200).send('Producto agregado correctamente al carrito')
+    await newCart.addProduct(cid, pid)
+
 })
 
 export default cartRoute
