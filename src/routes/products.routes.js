@@ -14,7 +14,7 @@ prodRoute.post('/', async (req, res) => {
 
 prodRoute.get('/', async (req, res) => {
     const { limit } = req.query
-    const prods = await newProduct.getProducts(parseInt(limit));
+    const prods = await newProduct.getProducts(limit);
     res.status(200).send(prods)
 })
 

@@ -1,6 +1,9 @@
 import {Schema, model} from 'mongoose';
 
 const productSchema = new Schema({
+    brand: {
+        type: String,
+    },
     title: {
         type: String,
         require: true,
@@ -14,7 +17,7 @@ const productSchema = new Schema({
         require: true
     },
     thumbnails: {
-        type: Object,
+        
     },
     code: {
         type: String,
@@ -35,5 +38,6 @@ const productSchema = new Schema({
     },
 
 })
+
 
 export default model("products", productSchema)

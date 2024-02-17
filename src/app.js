@@ -1,14 +1,26 @@
+//Server
 import express from "express";
+import { Server } from "socket.io";
+import { createServer } from "http";
+import Database from "./dao/MongoDB/db.js";
+
+//Routes
 import prodRoute from "./routes/products.routes.js";
 import cartRoute from "./routes/carts.routes.js";
 import homeRoute from "./routes/home.routes.js";
-import handlebars from "express-handlebars";
-import path from "path";
+
 import { __dirname } from "../src/path.js"
-import Database from "./dao/MongoDB/db.js";
+import path from "path";
+import handlebars from 'handlebars';
+import exphbs from 'express-handlebars';
+import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 
 //SERVER EXPRESS
 const app = express()
+
+//SOCKET
+const serverHttp = createServer(app)
+const socketServer = new Server(serverHttp)
 
 let PORT = 8080 || process.env.PORT;
 
@@ -16,7 +28,9 @@ let PORT = 8080 || process.env.PORT;
 app.use(express.static(__dirname + '/public'))
 
 //VIEWS
-app.engine('handlebars', handlebars.engine())
+app.engine("handlebars", exphbs.engine({
+    handlebars: allowInsecurePrototypeAccess(handlebars)
+}));
 app.set('view engine', 'handlebars')
 app.set('views', path.resolve(__dirname + '/views'))
 
@@ -31,4 +45,6 @@ app.listen(PORT, () => {
     console.log(`Server on Port ${PORT}`);
     Database.connect()
 })
+
+
 

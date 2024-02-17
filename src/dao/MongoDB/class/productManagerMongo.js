@@ -2,6 +2,9 @@ import productsModels from "../models/productsModels.js"
 
 class ProductManagerMongo {
     async addProducts(product) {
+        if(!(product.title && product.description && product.price && product.code && product.stock && product.category)){
+            return false
+        }
         productsModels.create(product)
     }
 

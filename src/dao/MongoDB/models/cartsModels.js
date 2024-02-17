@@ -2,17 +2,18 @@ import { Schema, model } from 'mongoose';
 
 const carsSchema = new Schema({
     products: {
-        type: Array,
-        require: true,
-        id: {
-            type: String,
-            require: true,
-        },
-        quantity: {
-            type: Number,
-            require: true,
-        }
+        type: [{
+            product: {
+                type: String,
+                required: true,
+            },
+            quantity: {
+                type: Number,
+                required: true,
+            }
+        }]
+
     }
 });
 
-export default model("cars", carsSchema);
+export default model("carts", carsSchema);

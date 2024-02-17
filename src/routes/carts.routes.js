@@ -21,7 +21,7 @@ cartRoute.post('/:cid/products/:pid', async (req, res) => {
     const { cid } = req.params;
     const { pid } = req.params;
     await newCart.addProduct(cid, pid)
-
+    res.status(200)
 })
 
 export default cartRoute

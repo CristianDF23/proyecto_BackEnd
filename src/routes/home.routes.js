@@ -1,13 +1,14 @@
 import { Router } from "express";
-//import { ProductManager } from "../models/productManager.js";
+import ProductManagerMongo from "../dao/MongoDB/class/productManagerMongo.js";
 
 const homeRoute = Router();
-//const prodManager = new ProductManager('./src/data/products.json')
+const prodManager = new ProductManagerMongo()
 
 homeRoute.get("/", async (req, res) => {
-    // const products = await prodManager.getProducts();
-    // res.render('home', {products: products,
-    // });
+    const { limit } = req.query
+    const products = await prodManager.getProducts(limit);
+    console.log(products);
+    res.render('home.handlebars', {products});
 })
 
 export default homeRoute
