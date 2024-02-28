@@ -1,4 +1,6 @@
 import {Schema, model} from 'mongoose';
+import  paginate  from 'mongoose-paginate-v2';
+
 
 const productSchema = new Schema({
     brand: {
@@ -16,8 +18,14 @@ const productSchema = new Schema({
         type: Number,
         require: true
     },
+    money:{
+        type: Number,
+        default: function(){
+            return this.price.toLocaleString()
+        }
+    },
     thumbnails: {
-        
+        type: Object
     },
     code: {
         type: String,
@@ -39,5 +47,6 @@ const productSchema = new Schema({
 
 })
 
+productSchema.plugin(paginate)
 
 export default model("products", productSchema)

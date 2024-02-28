@@ -2,7 +2,7 @@
 import express from "express";
 import { Server } from "socket.io";
 import { createServer } from "http";
-import Database from "./dao/MongoDB/db.js";
+import { connection } from "./dao/MongoDB/db.js";
 
 //Routes
 import prodRoute from "./routes/products.routes.js";
@@ -25,7 +25,7 @@ const socketServer = new Server(serverHttp)
 let PORT = 8080 || process.env.PORT;
 
 //PUBLIC
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + "/public"))
 
 //VIEWS
 app.engine("handlebars", exphbs.engine({
@@ -43,7 +43,7 @@ app.use('/api/home', homeRoute)
 
 app.listen(PORT, () => {
     console.log(`Server on Port ${PORT}`);
-    Database.connect()
+    connection()
 })
 
 

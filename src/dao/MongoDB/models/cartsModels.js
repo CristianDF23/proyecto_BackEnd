@@ -2,10 +2,12 @@ import { Schema, model } from 'mongoose';
 
 const carsSchema = new Schema({
     products: {
-        type: [{
+        type: [
+            {
             product: {
-                type: String,
-                required: true,
+                type: Schema.Types.ObjectId,
+                ref: 'products',
+                required: true
             },
             quantity: {
                 type: Number,
@@ -15,5 +17,9 @@ const carsSchema = new Schema({
 
     }
 });
+
+carsSchema.pre('find', function(){
+    this.populate('products.product')
+})
 
 export default model("carts", carsSchema);

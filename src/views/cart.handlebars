@@ -1,0 +1,101 @@
+<section class="container mx-auto px-auto flex gap-6 h-screen border">
+    <div class="w-full h-full py-20 px-7 overflow-y-auto mb-3">
+        <h2 class="text-xl font-semibold text-slate-700 ">Contact Information</h2>
+        <form action="" class="mt-7">
+            <div class="flex flex-col gap-2">
+                <label class="font-semibold text-slate-700 " htmlFor="name">Full Name</label>
+                <input type="text" placeholder="Full Name" value="" name="name" class="rounded-lg border-slate-400" />
+                <label class="font-semibold text-slate-700 " htmlFor="">Email Adress</label>
+                <input type="text" placeholder="correo@correo" value="" name="email"
+                    class="rounded-lg border-slate-400" />
+                <label class="font-semibold text-slate-700 " htmlFor="">Phone</label>
+                <input type="text" placeholder="Phone" value="" name="phone" class="rounded-lg border-slate-400" />
+            </div>
+            <hr />
+        </form>
+        <h2 class="text-xl font-semibold text-slate-700 mt-7">Payment details</h2>
+        <form action="" class="mt-7">
+            <div class="flex flex-col gap-2 ">
+                <label class="font-semibold text-slate-700 " htmlFor="">Card Number</label>
+                <input type="text" placeholder="1234 5678 2345 7655" value="" name="cardNumber"
+                    class="rounded-lg border-slate-400" />
+                <div class="flex gap-4 ">
+                    <div class="flex flex-col gap-2 w-4/5">
+                        <label class="font-semibold text-slate-700 " htmlFor="">Expiration date (MM/YY)</label>
+                        <input type="text" placeholder="MM / YY" value="" name="date"
+                            class="rounded-lg border-slate-400 " />
+                    </div>
+                    <div class="flex flex-col gap-2 w-1/5">
+                        <label class="font-semibold text-slate-700 " htmlFor="">CVC</label>
+                        <input type="text" placeholder="CVC" value="" name="code"
+                            class="rounded-lg border-slate-400 " />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <h2 class="text-xl font-semibold text-slate-700 mt-7">Shipping address</h2>
+        <form action="" class="mt-7">
+            <div class="flex flex-col gap-2 w-full">
+                <label class="font-semibold text-slate-700" htmlFor="">Address</label>
+                <input type="text" value="" name="address" class="rounded-lg border-slate-400" />
+                <div class="flex gap-4 w-full">
+                    <div class="flex flex-col gap-2 w-2/5">
+                        <label class="font-semibold text-slate-700 " htmlFor="">City</label>
+                        <input type="text" value="" name="city" class="rounded-lg border-slate-400 " />
+                    </div>
+                    <div class="flex flex-col gap-2 w-3/5">
+                        <label class="font-semibold text-slate-700 " htmlFor="">State / Province</label>
+                        <input type="text" value="" name="state" class="rounded-lg border-slate-400 " />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <button type="submit"
+            class="hover:bg-gray-500 p-1 mt-4 bg-gray-600 text-white rounded-lg px-4 float-right w-full">Pay
+            $ 12.2222</button>
+    </div>
+    <div class="w-full h-full bg-gray-700 overflow-auto py-10 px-7">
+        {{!-- Products --}}
+        <h3 class="text-gray-400 font-semibold mb-10">Order Summary</h3>
+        {{#each products}}
+        <div class="flex justify-between gap-2 py-3 border-b w-full mb-6">
+            <div class="flex">
+                <img class="w-24 rounded-lg" src="{{product.thumbnails.one}}" alt="" />
+                <div class="py-2 px-2 flex flex-col gap-1">
+                    <h2 class="text-white font-semibold">{{product.title}}</h2>
+                    <h3 class="text-gray-400 font-semibold">
+                        Cantidad: {{this.quantity}}
+                    </h3>
+                </div>
+            </div>
+            <div class="flex flex-col justify-between">
+                <h4 class="text-white font-semibold">
+                    $ {{product.money}}
+                </h4>
+                <button data-id="{{this._id}}" class="btnDelete text-gray-400 font-semibold">
+                    Remove
+                </button>
+            </div>
+        </div>
+        {{/each}}
+        <div class="flex flex-col gap-3 mb-4">
+            <div class="flex justify-between">
+                <h2 class="text-gray-400 font-semibold">Subtotal</h2>
+                <h3 class="text-gray-400 font-semibold"></h3>
+            </div>
+            <div class="flex justify-between">
+                <h2 class="text-gray-400 font-semibold">Impuesto (I.V.A)</h2>
+                <h3 class="text-gray-400 font-semibold">21%</h3>
+            </div>
+            <hr />
+        </div>
+        <div class="flex justify-between">
+            <h2 class="text-gray-400 font-semibold">Total</h2>
+            <h3 class="text-gray-400 font-semibold"></h3>
+        </div>
+        <button class="font-semibold text-white p-1 float-right mt-10 hover:text-gray-200">
+            Limpiar Carrito
+        </button>
+    </div>
+</section>
+<script src="/js/cart.js"></script>
