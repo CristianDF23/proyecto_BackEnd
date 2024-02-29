@@ -1,7 +1,5 @@
 //Server
 import express from "express";
-import { Server } from "socket.io";
-import { createServer } from "http";
 import { connection } from "./dao/MongoDB/db.js";
 
 //Routes
@@ -17,10 +15,6 @@ import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access
 
 //SERVER EXPRESS
 const app = express()
-
-//SOCKET
-const serverHttp = createServer(app)
-const socketServer = new Server(serverHttp)
 
 let PORT = 8080 || process.env.PORT;
 

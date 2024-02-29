@@ -1,5 +1,5 @@
 import productsModels from "../models/productsModels.js"
-import { paginate } from "./paginationManager.js";
+
 
 class ProductManagerMongo {
     async addProducts(product) {
@@ -19,20 +19,29 @@ class ProductManagerMongo {
         }
     }
 
-    async getProducts( prop, str, numLimit, numPage, numSort) {
+    async getProducts(limit, page, filtro, parametro, sort) {
         try {
-            const prods = await paginate(prop, str,numLimit, numPage, numSort)
-            if (!numLimit) numLimit = 10;
-            if (!numPage) numPage = 1;
-            !prods.hasPrevPage ? numPage = 1 : numPage --
-            !prods.hasNextPage ? numPage = prods.page : numPage = prods.totalPages
-            return prods
+            // Verificar y asignar valores predeterminados
+            limit = limit || 10;
+            page = page || 1;
 
+            // Verificar filtro y parametro
+            filtro = filtro || undefined;
+            parametro = parametro || undefined;
+
+            // Verificar y ajustar el valor de sort
+            if (sort !== -1 && sort !== 1) {
+                sort = 1;
+            }
+            const optionSort = { price: sort }
+            const prods = await productsModels.paginate({ [filtro]: parametro }, { limit: limit, page: page, sort: optionSort });
+            return prods
         } catch (error) {
             console.log('Error encontrado: \n', error);
+            return false
         }
     }
-        
+
 
     async getProductsById(pid) {
         try {

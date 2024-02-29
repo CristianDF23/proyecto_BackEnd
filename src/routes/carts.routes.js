@@ -7,8 +7,8 @@ const cartRoute = Router();
 
 cartRoute.post('/', async (req, res) => {
     try {
-        const addCart = await newCart.createCart();
-        if (addCart) {
+        const createCart = await newCart.createCart();
+        if (createCart) {
             res.status(201).send({ Msg: "El carrito fue creado con exito" });
         };
     } catch (err) {
@@ -35,30 +35,87 @@ cartRoute.get('/:cid', async (req, res) => {
     const { cid } = req.params;
     try {
         const cart = await newCart.getCartProducts(cid);
-        const products = cart.products
-        if (products.length <= 0) {
+        if (cart.products.length = 0) {
             res.status(200).render('cartEmpty.handlebars');
             console.log(`Msg: Carrito Vacio`);
         } else {
-            res.status(200).render('cart.handlebars', { products });
-            console.log(`Msg: Carrito ID: ${cid}, con un total de ${products.length} productos`);
+            res.status(200).render('cart.handlebars', { products: cart.products });
+            console.log(`Msg: Carrito ID: ${cid}, con un total de ${cart.products.length} productos`);
         };
     } catch (error) {
-        console.log(error);
+        console.log('Error encontrado: \n', error);
     };
 });
 
-cartRoute.delete('/:cid/product/:pid', async (req, res) => {
+cartRoute.delete('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params;
     try {
         const cart = await newCart.deleteProducts(cid, pid);
-        const products = cart.products
-        if (products){
-            res.status(200).send({Msg: 'Producto Eliminado'})
+        if (cart) {
+            res.status(200).send({ Msg: 'Producto eliminado con exito' })
+        } else {
+            res.status(404).send({ Msg: 'Carrito o producto no encontrado' })
         }
     } catch (error) {
-        console.log(error);
+        console.log('Error encontrado: \n', error);
     }
 });
+
+cartRoute.delete('/cartEmpty/:cid', async (req, res) => {
+    const {cid} = req.params
+    try {
+        const deleteCart = await newCart.deletCart(cid)
+        if (deleteCart) {
+            res.status(200).send({Msg: 'Carrito vaciado con exito'})
+        }else{
+            res.status(404).send({Msg: 'No se pudo vaciar el carrito'})
+        }
+    } catch (error) {
+        console.log('Error encontrado: \n', error);
+    }
+})
+
+cartRoute.delete('/deleteAllProducts/:cid', async (req, res) => {
+    const { cid } = req.params
+    try {
+        const deleteProducts = await newCart.deleteAllProducts(cid)
+        if(deleteProducts){
+            res.status(200).render('cartEmpty.handlebars')
+            console.log('Msg: Carrito Vacío');
+        }
+    } catch (error) {
+        console.log('Error encontrado: \n', error);
+    }
+})
+
+cartRoute.put('/:cid', async (req, res) => {
+    const { cid } = req.params
+    try {
+        const update = await newCart.updateAllProducts(cid, req.body);
+        if (update) {
+            res.status(200).send({ Msg: 'Carrito actualizado correctamente' })
+        } else {
+            res.status(404).send({ Msg: 'Error al actualizar el carrito' })
+        }
+
+    } catch (error) {
+        console.log('Error encontrado: \n', error);
+    }
+})
+cartRoute.put('/:cid/product/:pid', async (req, res) => {
+    const { cid, pid } = req.params
+    const {quantity} = req.body
+    try {
+        const update = await newCart.updateQuantity(cid, pid, quantity);
+        if (update) {
+            res.status(200).send({ Msg: 'Producto actualizado correctamente' })
+        } else {
+            res.status(404).send({ Msg: 'Error al actualizar el producto' })
+        }
+
+    } catch (error) {
+        console.log('Error encontrado: \n', error);
+    }
+})
 
 export default cartRoute
