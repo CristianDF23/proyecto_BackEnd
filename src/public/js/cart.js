@@ -6,13 +6,13 @@ document.querySelectorAll('.btnDelete').forEach(button => {
                 method: 'DELETE'
             });
             if (response.ok) {
-                console.log('El recurso fue eliminado exitosamente');
+                console.log('El producto fue eliminado exitosamente');
             } else {
-                console.error('No se pudo eliminar el recurso:');
+                console.error('No se pudo eliminar el producto:');
             }
         } catch (error) {
             // Manejar errores de red u otros errores
-            console.error('Error al eliminar el recurso:', error);
+            console.error('Error al eliminar el producto:', error);
         }
     });
 });

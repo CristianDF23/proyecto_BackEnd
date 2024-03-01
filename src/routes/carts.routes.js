@@ -35,12 +35,13 @@ cartRoute.get('/:cid', async (req, res) => {
     const { cid } = req.params;
     try {
         const cart = await newCart.getCartProducts(cid);
-        if (cart.products.length = 0) {
+        const products = cart.products
+        console.log(products)
+        if (products.length === 0) {
             res.status(200).render('cartEmpty.handlebars');
             console.log(`Msg: Carrito Vacio`);
         } else {
-            res.status(200).render('cart.handlebars', { products: cart.products });
-            console.log(`Msg: Carrito ID: ${cid}, con un total de ${cart.products.length} productos`);
+            res.status(200).render('cart.handlebars', { products });
         };
     } catch (error) {
         console.log('Error encontrado: \n', error);

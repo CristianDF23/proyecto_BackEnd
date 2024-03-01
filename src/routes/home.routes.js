@@ -4,11 +4,16 @@ import ProductManagerMongo from "../dao/MongoDB/class/productManagerMongo.js";
 const homeRoute = Router();
 const prodManager = new ProductManagerMongo()
 
-homeRoute.get('/', async (req, res) => {
-    const { limit, page, sort, filtro, parametro } = req.query
-    console.log(req.query.limit);
+homeRoute.get('/:filtro?/:parametro?', async (req, res) => {
+    const { limit, page, sort } = req.query
+    const { filtro, parametro } = req.params
     try {
-        const prods = await prodManager.getProducts(limit, page, filtro, parametro, sort);
+        let prods;
+        if (!filtro && !parametro) {
+            prods = await prodManager.getProducts(limit, page, undefined, undefined, sort);
+        } else {
+            prods = await prodManager.getProducts(limit, page, filtro, parametro, sort);
+        }
         const status = prods ? 'success' : 'error';
         const prevPage = !prods.hasPrevPage ? null : Number(prods.page) - 1;
         const nextPage = !prods.hasNextPage ? null : Number(prods.page) + 1;
@@ -27,10 +32,10 @@ homeRoute.get('/', async (req, res) => {
             prevLink,
             nextLink
         }
-        const params = req.query
-        console.log(params.limit);
-        const pages = Array.from({length: product.totalPages}, (_, i) => i + 1);
-        res.status(200).render('home.handlebars', {product, pages, params})
+        const param = req.params
+        const query = req.query
+        const pages = Array.from({ length: product.totalPages }, (_, i) => i + 1);
+        res.status(200).render('home.handlebars', { product, pages, query, param })
     } catch (error) {
         console.log('Error encontrado: \n', error);
     }

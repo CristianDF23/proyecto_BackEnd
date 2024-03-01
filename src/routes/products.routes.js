@@ -29,12 +29,17 @@ prodRoute.get('/', async (req, res) => {
     const { limit, page, sort } = req.query
     const { filtro, parametro } = req.params
     try {
-        const prods = await newProduct.getProducts(limit, page, filtro, parametro, sort);
+        let prods;
+        if (!filtro && !parametro) {
+            prods = await newProduct.getProducts(limit, page, undefined, undefined, sort);
+        } else {
+            prods = await newProduct.getProducts(limit, page, filtro, parametro, sort);
+        }
         const status = prods ? 'success' : 'error';
         const prevPage = !prods.hasPrevPage ? null : Number(prods.page) - 1;
         const nextPage = !prods.hasNextPage ? null : Number(prods.page) + 1;
-        const prevLink = prevPage ? `api/products?limit=${limit}&page=${prevPage}&query=${filtro}&parametro=${parametro}` : null;
-        const nextLink = nextPage ? `api/products?limit=${limit}&page=${nextPage}&query=${filtro}&parametro=${parametro}` : null;
+        const prevLink = prevPage ? `?&limit=${prods.limit}&page=${prevPage}` : null;
+        const nextLink = nextPage ? `?&limit=${prods.limit}&page=${nextPage}` : null;
 
         const product = {
             status,
@@ -48,7 +53,10 @@ prodRoute.get('/', async (req, res) => {
             prevLink,
             nextLink
         }
-        res.status(200).render('home.handlebars', product)
+        const param = req.params
+        const query = req.query
+        const pages = Array.from({ length: product.totalPages }, (_, i) => i + 1);
+        res.status(200).render('home.handlebars', { product, pages, query, param })
     } catch (error) {
         console.log('Error encontrado: \n', error);
     }
