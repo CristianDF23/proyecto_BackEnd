@@ -51,6 +51,7 @@ class CartsManagerMongo {
         try {
             const cart = await cartsModels.findById(cid)
             const product = cart.products.find(i => i._id == pid)
+            console.log(product);
             if (!cart) {
                 console.log('Carrito no encontrado');
             }
@@ -58,11 +59,13 @@ class CartsManagerMongo {
                 console.log('Producto no encontrado');
             }
             const productIndex = cart.products.findIndex(i => i._id == pid)
-            if (productIndex !== -1) {
-                cart.products.splice(productIndex, 1)
-                await cart.save()
-                return cart
+            if (productIndex === -1) {
+                console.log('Producto no encontrado');
+                return false
             }
+            cart.products.splice(productIndex, 1)
+            await cart.save()
+            return cart
         } catch (error) {
             console.log('Error encontrado: \n', error);
             return false

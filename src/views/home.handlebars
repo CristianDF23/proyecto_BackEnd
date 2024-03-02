@@ -1,3 +1,5 @@
+{{!--BOTON PARA LIMITAR CANTIDAD DE PRODUCTOS--}}
+
 <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover"
     class="text-black mr-20 mb-20 float-right focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
     type="button">Cantidad de Productos<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true"
@@ -38,6 +40,8 @@
     </ul>
     {{/if}}
 </div>
+
+{{!--LISTA DE PRODUCTOS--}}
 <section>
     <div
         class="container mx-auto mt-30 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
@@ -56,6 +60,8 @@
         </a>
         {{/each}}
     </div>
+
+    {{!--NAVEGACION DE PAGINAS--}}
     <div class="mt-10 px-10 flex w-full sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <nav class="flex w-full justify-between gap-10" aria-label="Pagination">
             {{#if product.hasPrevPage}}

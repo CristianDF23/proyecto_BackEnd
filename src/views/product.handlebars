@@ -1,5 +1,6 @@
 <div class="bg-white">
     <div class="pt-6">
+        {{!--INFORMACION DE PRODUCTO--}}
         {{#with products}}
         <nav aria-label="Breadcrumb">
             <ol role="list" class="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -104,7 +105,7 @@
                     </div>
                 </div>
 
-                <form class="mt-10" action="/api/carts/65d2b4a56d5497649e2a2284/products/{{id}}" method="post">
+                <form class="mt-10" action="/api/carts/65dbceb484d330ff7b488911/products/{{id}}" method="post">
                     <!-- Colors -->
                     <div>
                         <h3 class="text-sm font-medium text-gray-900">Color</h3>

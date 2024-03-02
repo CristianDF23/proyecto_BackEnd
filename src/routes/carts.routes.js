@@ -5,6 +5,7 @@ const newCart = new CartsManagerMongo();
 
 const cartRoute = Router();
 
+//CREAR CARRITO NUEVO
 cartRoute.post('/', async (req, res) => {
     try {
         const createCart = await newCart.createCart();
@@ -17,7 +18,7 @@ cartRoute.post('/', async (req, res) => {
         });
     };
 });
-
+//AGREGAR PRODUCTO AL CARRITO
 cartRoute.post('/:cid/products/:pid', async (req, res) => {
     const { cid } = req.params;
     const { pid } = req.params;
@@ -30,13 +31,12 @@ cartRoute.post('/:cid/products/:pid', async (req, res) => {
         res.status(400).send({ Msg: `Ocurrio un error al intentar agregar el producto al carrito ${error}` });
     };
 });
-
+//MOSTRAR CARRITO
 cartRoute.get('/:cid', async (req, res) => {
     const { cid } = req.params;
     try {
         const cart = await newCart.getCartProducts(cid);
         const products = cart.products
-        console.log(products)
         if (products.length === 0) {
             res.status(200).render('cartEmpty.handlebars');
             console.log(`Msg: Carrito Vacio`);
@@ -47,7 +47,7 @@ cartRoute.get('/:cid', async (req, res) => {
         console.log('Error encontrado: \n', error);
     };
 });
-
+//ELIMINAR PRODUCTO DEL CARRITO
 cartRoute.delete('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params;
     try {
@@ -61,8 +61,8 @@ cartRoute.delete('/:cid/products/:pid', async (req, res) => {
         console.log('Error encontrado: \n', error);
     }
 });
-
-cartRoute.delete('/cartEmpty/:cid', async (req, res) => {
+//ELIMINAR CARRITO
+cartRoute.delete('/:cid', async (req, res) => {
     const {cid} = req.params
     try {
         const deleteCart = await newCart.deletCart(cid)
@@ -75,7 +75,7 @@ cartRoute.delete('/cartEmpty/:cid', async (req, res) => {
         console.log('Error encontrado: \n', error);
     }
 })
-
+//VACIAR CARRITO
 cartRoute.delete('/deleteAllProducts/:cid', async (req, res) => {
     const { cid } = req.params
     try {
@@ -88,7 +88,7 @@ cartRoute.delete('/deleteAllProducts/:cid', async (req, res) => {
         console.log('Error encontrado: \n', error);
     }
 })
-
+//ACTUALIZAR CARRITO
 cartRoute.put('/:cid', async (req, res) => {
     const { cid } = req.params
     try {
@@ -103,6 +103,7 @@ cartRoute.put('/:cid', async (req, res) => {
         console.log('Error encontrado: \n', error);
     }
 })
+//ACTUALIZAR LAS CANTIDADES DE LOS PRODUCTOS
 cartRoute.put('/:cid/product/:pid', async (req, res) => {
     const { cid, pid } = req.params
     const {quantity} = req.body

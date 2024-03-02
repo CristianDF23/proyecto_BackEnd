@@ -5,9 +5,9 @@ import ProductManagerMongo from "../dao/MongoDB/class/productManagerMongo.js";
 const newProduct = new ProductManagerMongo()
 const prodRoute = Router()
 
+//CREAR PRODUCTO NUEVO
 prodRoute.post('/', async (req, res) => {
     try {
-
         const addProducts = await newProduct.addProducts(req.body)
         if (!addProducts) {
             res.status(404).send({ Msg: 'Complete todos los campos' })
@@ -24,7 +24,7 @@ prodRoute.post('/', async (req, res) => {
         console.log('Error encontrado: \n', error);
     }
 })
-
+//MOSTRAR TODOS LOS PRODUCTOS
 prodRoute.get('/', async (req, res) => {
     const { limit, page, sort } = req.query
     const { filtro, parametro } = req.params
@@ -61,7 +61,7 @@ prodRoute.get('/', async (req, res) => {
         console.log('Error encontrado: \n', error);
     }
 })
-
+//MOSTRAR UN PRODUCTO
 prodRoute.get('/:pid', async (req, res) => {
     const { pid } = req.params
     try {
@@ -74,9 +74,8 @@ prodRoute.get('/:pid', async (req, res) => {
     } catch (error) {
         console.log('Error encontrado: \n', error);
     }
-
 })
-
+//ELIMINAR PRODUCTO
 prodRoute.delete('/:pid', async (req, res) => {
     const { pid } = req.params
     try {
@@ -89,10 +88,8 @@ prodRoute.delete('/:pid', async (req, res) => {
     } catch (error) {
         console.log('Error encontrado: \n', error);
     }
-
-
 })
-
+//ACTUALIZAR PRODUCTO
 prodRoute.put('/:pid', async (req, res) => {
     const { pid } = req.params
     try {
