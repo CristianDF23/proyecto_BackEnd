@@ -1,41 +1,42 @@
 {{!--BOTON PARA LIMITAR CANTIDAD DE PRODUCTOS--}}
-
 <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover"
-    class="text-black mr-20 mb-20 float-right focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-    type="button">Cantidad de Productos<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+    class="text-black mr-20 mb-5 float-right focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    type="button">MOSTRAR: <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+        fill="none" viewBox="0 0 10 6">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
     </svg>
 </button>
-<div id="dropdownHover" class="z-10 hidden bg-gray-50 divide-y divide-gray-100 shadow w-44 dark:bg-gray-700">
-    {{#if param}}
+<div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-700">
+    {{#if filtro}}
+    {{#if parametro}}
     <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
         <li>
-            <a href="/api/home/{{param.filtro}}/{{param.parametro}}/?limit=8" id="limit8"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">8</a>
+            <a id="limit8" href="/api/products/allProducts/{{filtro}}/{{parametro}}?limit=8"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">8 PRODUCTOS</a>
         </li>
         <li>
-            <a href="/api/home/{{param.filtro}}/{{param.parametro}}/?limit=12" id="limit12"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">12</a>
+            <a id="limit12" href="/api/products/allProducts/{{filtro}}/{{parametro}}?limit=12"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">12 PRODUCTOS</a>
         </li>
         <li>
-            <a href="/api/home/{{param.filtro}}/{{param.parametro}}/?limit=14" id="limit14"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">14</a>
+            <a id="limit14" href="/api/products/allProducts/{{filtro}}/{{parametro}}?limit=14"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">14 PRODUCTOS</a>
         </li>
     </ul>
+    {{/if}}
     {{else}}
     <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
         <li>
-            <a href="/api/home/?limit=8" id="limit8"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">8</a>
+            <a id="limit8" href="/api/products/allProducts/?limit=8"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">8 PRODUCTOS</a>
         </li>
         <li>
-            <a href="/api/home/?limit=12" id="limit12"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">12</a>
+            <a id="limit12" href="/api/products/allProducts/?limit=12"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">12 PRODUCTOS</a>
         </li>
         <li>
-            <a href="/api/home/?limit=14" id="limit14"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">14</a>
+            <a id="limit14" href="/api/products/allProducts/?limit=14"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">14 PRODUCTOS</a>
         </li>
     </ul>
     {{/if}}
@@ -47,7 +48,7 @@
         class="container mx-auto mt-30 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
         {{#each product.payload}}
         <a href="/api/products/{{this.id}}" class="group border-solid border-2 border-gray-100 rounded-lg idProd"
-            data-product-id="{{this.id}}">
+            data-product-id="{{this._id}}">
             <div
                 class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                 <img src="{{this.thumbnails.one}}" alt="{{this.title}}"
@@ -56,44 +57,36 @@
             <h3 class="mt-4 ml-4 text-l text-gray-700">{{this.category}} <span class="font-bold">{{this.brand}}</span>
             </h3>
             <h3 class="mt-4 ml-4 text-xl text-gray-700">{{this.title}}</h3>
-            <p class="mt-4 mb-2 ml-4 text-2xl font-medium text-green-400">${{this.price}}</p>
+            <p class="mt-4 mb-2 ml-4 text-2xl font-medium text-green-400">$ {{this.money}}</p>
         </a>
         {{/each}}
     </div>
 
     {{!--NAVEGACION DE PAGINAS--}}
-    <div class="mt-10 px-10 flex w-full sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <nav class="flex w-full justify-between gap-10" aria-label="Pagination">
-            {{#if product.hasPrevPage}}
-            <a href="{{product.prevLink}}"
-                class="relative inline-flex items-center px-2 py-2 text-gray-400 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                <span class="sr-only">Previous</span>
-                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                        clip-rule="evenodd" />
-                </svg>
-                Previous
-            </a>
-            {{/if}}
-            <div class="flex items-center">
-                {{#each pages}}
-                <a href="/api/home/?limit={{../query.limit}}&page={{this}}"
-                    class="relative inline-flex items-center px-4 py-2 text-m font-semibold text-gray-400 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">{{this}}</a>
-                {{/each}}
-            </div>
-            {{#if product.hasNextPage}}
-            <a href="{{product.nextLink}}"
-                class="relative inline-flex items-center px-2 py-2 text-gray-400 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                Next
-                <span class="sr-only">Next</span>
-                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                        clip-rule="evenodd" />
-                </svg>
-            </a>
-            {{/if}}
-        </nav>
+    <div class="mx-auto flex items-center justify-around w-1/2 mt-10 float-center">
+        <a href="{{product.prevLink}}" class="px-2 py-2 text-gray-400 font-semibold hover:bg-gray-50">
+            <span class="sr-only">Previous</span>
+            Previous
+        </a>
+        <div>
+        {{#if filtro}}
+        {{#if parametro}}
+        {{#each pages}}
+        <a href="/api/products/allProducts/{{../filtro}}/{{../parametro}}/?limit={{../limit}}&page={{this}}"
+            class="px-4 py-2 text-m font-semibold text-gray-400 hover:bg-gray-50 ">{{this}}</a>
+        {{/each}}
+        {{/if}}
+        {{else}}
+        {{#each pages}}
+        <a href="/api/products/allProducts/?limit={{../limit}}&page={{this}}"
+            class="px-4 py-2 text-m font-semibold text-gray-400 hover:bg-gray-50  ">{{this}}</a>
+        {{/each}}
+        {{/if}}
+        </div>
+        <a href="{{product.nextLink}}" class="px-2 py-2 text-gray-400 font-semibold hover:bg-gray-50">
+            <span>Next</span>
+        </a>
     </div>
+
 </section>
+<script src="/js/home.js"></script>

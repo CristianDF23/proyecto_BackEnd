@@ -21,17 +21,14 @@ class ProductManagerMongo {
 
     async getProducts(limit, page, filtro, parametro, sort) {
         try {
-            // Verificar y asignar valores predeterminados
             limit = limit || 10;
             page = page || 1;
 
-            // Verificar filtro y parametro
             filtro = filtro || undefined;
             parametro = parametro || undefined;
 
-            // Verificar y ajustar el valor de sort
-            if (sort !== -1 && sort !== 1) {
-                sort = 1;
+            if (sort !== 'asc' && sort !== 'desc') {
+                sort = 'asc';
             }
             const optionSort = { price: sort }
             const prods = await productsModels.paginate({ [filtro]: parametro }, { limit: limit, page: page, sort: optionSort });
@@ -42,10 +39,9 @@ class ProductManagerMongo {
         }
     }
 
-
     async getProductsById(pid) {
         try {
-            const product = await productsModels.findOne({ _id: pid });
+            const product = await productsModels.findById(pid);
             if (!product) {
                 return false
             } else {

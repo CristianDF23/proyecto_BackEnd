@@ -1,0 +1,68 @@
+.btn {
+    color: rgb(240, 239, 239);
+    font-weight: 600;
+    background-color: black !important;
+    width: 380px;
+    height: 40px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn::before{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 380px;
+    height: 15px;
+    border-bottom: 2px solid black!important;
+    border-left: 2px solid black!important;
+    transform: translate(6px, 18px);
+}
+
+.btn::after{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 10px;
+    height: 40px;
+    border-top: 2px solid black!important;
+    border-right: 2px solid black!important;
+    transform: translate(191px, 6px);
+}
+
+.btnEmpty{
+    color: rgb(240, 239, 239);
+    font-weight: 600;
+    background-color: black !important;
+    width: 380px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnEmpty::before{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 380px;
+    height: 15px;
+    border-bottom: 2px solid black!important;
+    border-left: 2px solid black!important;
+    transform: translate(6px, 18px);
+}
+
+.btnEmpty::after{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 10px;
+    height: 40px;
+    border-top: 2px solid black!important;
+    border-right: 2px solid black!important;
+    transform: translate(191px, 6px);
+}
