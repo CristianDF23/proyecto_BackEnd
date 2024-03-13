@@ -1,101 +1,99 @@
-<section class="container mx-auto px-auto flex gap-6 h-screen border">
-    <div class="w-full h-full py-20 px-7 overflow-y-auto mb-3">
-
+<div class="border border-y-gray-300 py-3 pl-4 font-semibold">
+    <h2>HOLA, {{userName}}!</h2>
+</div>
+<section class="container mx-auto px-auto flex gap-6">
+    <div class="w-full py-20 px-7 overflow-y-auto mb-3">
         {{!--FORMULARIO DE PAGO--}}
         <h2 class="text-xl font-semibold text-slate-700 ">Contact Information</h2>
+        <p class="mt-6 text-l mb-6">{{user.email}}</p>
+        <hr>
+        <h2 class="text-xl font-semibold text-slate-700 mt-7">Shipping address</h2>
         <form action="" class="mt-7">
             <div class="flex flex-col gap-2">
                 <label class="font-semibold text-slate-700 " htmlFor="name">Full Name</label>
-                <input type="text" placeholder="Full Name" value="" name="name" class="rounded-lg border-slate-400" />
-                <label class="font-semibold text-slate-700 " htmlFor="">Email Adress</label>
-                <input type="text" placeholder="correo@correo" value="" name="email"
-                    class="rounded-lg border-slate-400" />
+                <input type="text" placeholder="Full Name" value="" name="name" class=" border-slate-400 py-4" />
                 <label class="font-semibold text-slate-700 " htmlFor="">Phone</label>
-                <input type="text" placeholder="Phone" value="" name="phone" class="rounded-lg border-slate-400" />
+                <input type="text" placeholder="Phone" value="" name="phone" class=" border-slate-400 py-4" />
             </div>
             <hr />
+            <div class="flex flex-col gap-2 w-full">
+                <label class="font-semibold text-slate-700" htmlFor="">Address</label>
+                <input type="text" value="" name="address" class=" border-slate-400  py-4" />
+                <div class="flex gap-4 w-full">
+                    <div class="flex flex-col gap-2 w-2/5">
+                        <label class="font-semibold text-slate-700 " htmlFor="">City</label>
+                        <input type="text" value="" name="city" class=" border-slate-400  py-4 " />
+                    </div>
+                    <div class="flex flex-col gap-2 w-3/5">
+                        <label class="font-semibold text-slate-700 " htmlFor="">State / Province</label>
+                        <input type="text" value="" name="state" class=" border-slate-400  py-4" />
+                    </div>
+                </div>
+            </div>
         </form>
         <h2 class="text-xl font-semibold text-slate-700 mt-7">Payment details</h2>
         <form action="" class="mt-7">
             <div class="flex flex-col gap-2 ">
                 <label class="font-semibold text-slate-700 " htmlFor="">Card Number</label>
                 <input type="text" placeholder="1234 5678 2345 7655" value="" name="cardNumber"
-                    class="rounded-lg border-slate-400" />
+                    class=" border-slate-400" />
                 <div class="flex gap-4 ">
                     <div class="flex flex-col gap-2 w-4/5">
                         <label class="font-semibold text-slate-700 " htmlFor="">Expiration date (MM/YY)</label>
-                        <input type="text" placeholder="MM / YY" value="" name="date"
-                            class="rounded-lg border-slate-400 " />
+                        <input type="text" pattern="[0-9]{2}/[0-9]{2}" placeholder="MM / YY" value="" name="date" class=" border-slate-400 py-4 " />
                     </div>
                     <div class="flex flex-col gap-2 w-1/5">
                         <label class="font-semibold text-slate-700 " htmlFor="">CVC</label>
-                        <input type="text" placeholder="CVC" value="" name="code"
-                            class="rounded-lg border-slate-400 " />
+                        <input type="text" placeholder="CVC" value="" name="code" class=" border-slate-400 py-4" />
                     </div>
                 </div>
             </div>
         </form>
-        <h2 class="text-xl font-semibold text-slate-700 mt-7">Shipping address</h2>
-        <form action="" class="mt-7">
-            <div class="flex flex-col gap-2 w-full">
-                <label class="font-semibold text-slate-700" htmlFor="">Address</label>
-                <input type="text" value="" name="address" class="rounded-lg border-slate-400" />
-                <div class="flex gap-4 w-full">
-                    <div class="flex flex-col gap-2 w-2/5">
-                        <label class="font-semibold text-slate-700 " htmlFor="">City</label>
-                        <input type="text" value="" name="city" class="rounded-lg border-slate-400 " />
-                    </div>
-                    <div class="flex flex-col gap-2 w-3/5">
-                        <label class="font-semibold text-slate-700 " htmlFor="">State / Province</label>
-                        <input type="text" value="" name="state" class="rounded-lg border-slate-400 " />
-                    </div>
-                </div>
-            </div>
-        </form>
-        <button type="submit"
-            class="hover:bg-gray-500 p-1 mt-4 bg-gray-600 text-white rounded-lg px-4 float-right w-full">Pay
-            $ 12.2222</button>
+        <button type="submit" class="btn mx-auto">Pay $ {{totalPrice.totalMasIva}}</button>
     </div>
-    <div class="w-full h-full bg-gray-700 overflow-auto py-10 px-7">
-        
+    <div class="w-full py-20 px-7">
+
         {{!-- PRODUCTOS --}}
-        <h3 class="text-gray-400 font-semibold mb-10">Order Summary</h3>
+        <h3 class="text-xl text-slate-700 font-semibold mb-10">Order Summary</h3>
         {{#each products}}
         <div class="flex justify-between gap-2 py-3 border-b w-full mb-6">
             <div class="flex">
-                <img class="w-24 rounded-lg" src="{{product.thumbnails.one}}" alt="" />
-                <div class="py-2 px-2 flex flex-col gap-1">
-                    <h2 class="text-white font-semibold">{{product.title}}</h2>
-                    <h3 class="text-gray-400 font-semibold">
+                <img class="w-48 " src="{{product.thumbnails.one}}" alt="" />
+                <div class="py-2 px-2 flex flex-col gap-2">
+                    <h2 class="text-black text-lg">{{product.category}} {{product.title}}</h2>
+                    <h4 class="text-black">$ {{product.money}}</h4>
+                    <h3 class=" text-slate-700">
                         Cantidad: {{this.quantity}}
                     </h3>
                 </div>
             </div>
+            <hr>
             <div class="flex flex-col justify-between">
-                <h4 class="text-white font-semibold">
-                    $ {{product.money}}
-                </h4>
-                <button data-id="{{this._id}}" class="btnDelete text-gray-400 font-semibold">
-                    Remove
-                </button>
+                <button data-id="{{this._id}}" class="btnDelete"><svg
+                        class="w-6 h-6 text-gray-800 hover: text-slate-700 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18 18 6m0 12L6 6" />
+                    </svg></button>
             </div>
         </div>
         {{/each}}
         <div class="flex flex-col gap-3 mb-4">
             <div class="flex justify-between">
-                <h2 class="text-gray-400 font-semibold">Subtotal</h2>
-                <h3 class="text-gray-400 font-semibold"></h3>
+                <h2 class=" text-slate-700">Subtotal</h2>
+                <h3 class=" text-slate-700">$ {{totalPrice.subtotal}}</h3>
             </div>
             <div class="flex justify-between">
-                <h2 class="text-gray-400 font-semibold">Impuesto (I.V.A)</h2>
-                <h3 class="text-gray-400 font-semibold">21%</h3>
+                <h2 class=" text-slate-700">Entrega</h2>
+                <h3 class=" text-slate-700">{{totalPrice.envio}}</h3>
             </div>
             <hr />
         </div>
         <div class="flex justify-between">
-            <h2 class="text-gray-400 font-semibold">Total</h2>
-            <h3 class="text-gray-400 font-semibold"></h3>
+            <h2 class=" text-slate-700 font-semibold">Total</h2>
+            <h3 class=" text-slate-700 font-semibold">$ {{totalPrice.totalMasIva}} </h3>
         </div>
+        <h2 class="text-gray-400">(IVA incluido $ {{totalPrice.iva}})</h2>
         <button id="btnCartEmpty" class="font-semibold text-white p-1 float-right mt-10 hover:text-gray-200">
             Limpiar Carrito
         </button>

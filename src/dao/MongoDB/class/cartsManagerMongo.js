@@ -23,11 +23,11 @@ class CartsManagerMongo {
             if (!product) {
                 console.log('Producto no encontrado');
             }
-            const existingItem = cart.products.findIndex(item => item.product == pid);
-            if (existingItem !== -1) {
-                cart.products[existingItem].quantity += 1;
-            } else {
+            const existingItem = cart.products.findIndex(item => item.product.id == pid);
+            if (existingItem === -1) {
                 cart.products.push({ product: pid, quantity: 1 });
+            } else {
+                cart.products[existingItem].quantity += 1;
             }
             await cart.updateOne(cart, cart);
             return true;
@@ -51,7 +51,6 @@ class CartsManagerMongo {
         try {
             const cart = await cartsModels.findById(cid)
             const product = cart.products.find(i => i._id == pid)
-            console.log(product);
             if (!cart) {
                 console.log('Carrito no encontrado');
             }
@@ -114,13 +113,11 @@ class CartsManagerMongo {
                 console.log('Carrito no encontrado');
                 return false;
             }
-
             const productIndex = cart.products.findIndex(i => i._id == pid);
             if (productIndex === -1) {
                 console.log('Producto no encontrado');
                 return false;
             }
-
             cart.products[productIndex].quantity += quantity;
             await cart.save();
             return true;
@@ -130,8 +127,56 @@ class CartsManagerMongo {
         }
     }
 
+    async quantityCart(cid) {
+        try {
+            const cart = await cartsModels.findById(cid);
+            let totalQuantity = 0;
 
+            cart.products.forEach(elem => {
+                totalQuantity += elem.quantity;
+            });
+
+            return totalQuantity;
+        } catch (error) {
+            console.log('Error encontrado: \n', error);
+            return false;
+        }
+    }
+
+    async totalPrice(cid) {
+        try {
+            let cart = await cartsModels.findById(cid);
+            let subtotal = 0;
+            let envio;
+
+            cart.products.forEach(elem => {
+                elem.total = elem.product.price * elem.quantity;
+                subtotal += elem.total;
+            });
+
+            let iva = Math.round(subtotal * 0.21);
+            let totalMasIva;
+            if (subtotal <= 60000) {
+                envio = 4500;
+                totalMasIva = Math.round((subtotal + iva + envio)).toLocaleString('es-AR');
+                envio = `$ ${envio.toLocaleString('es-AR')}`
+            } else {
+                envio = 'Gratis';
+                totalMasIva = Math.round((subtotal + iva)).toLocaleString('es-AR');
+            }
+            subtotal = subtotal.toLocaleString('es-AR');
+            iva = iva.toLocaleString('es-AR');
+
+            cart = { subtotal, totalMasIva, iva, envio, ...cart };
+            return cart;
+        } catch (error) {
+            console.log('Error encontrado: \n', error);
+            return false;
+        }
+    }
 
 }
+
+
 
 export default CartsManagerMongo;

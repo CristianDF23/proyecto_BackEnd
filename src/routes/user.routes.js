@@ -12,7 +12,6 @@ logRouter.get('/registerUser', async(req, res) =>{
 
 logRouter.get('/profileUser', async(req, res) =>{
     const user = req.session.user
-    console.log(user);
     res.render('profile', { user })
 })
 

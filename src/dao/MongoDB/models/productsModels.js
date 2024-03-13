@@ -21,7 +21,7 @@ const productSchema = new Schema({
     money:{
         type: Number,
         default: function(){
-            return this.price.toLocaleString()
+            return this.price.toLocaleString('es-AR')
         }
     },
     thumbnails: {

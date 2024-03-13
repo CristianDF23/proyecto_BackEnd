@@ -1,6 +1,8 @@
 import { Router } from "express";
 import ProductManagerMongo from "../dao/MongoDB/class/productManagerMongo.js";
+import CartsManagerMongo from "../dao/MongoDB/class/cartsManagerMongo.js";
 
+const newCart = new CartsManagerMongo()
 const newProduct = new ProductManagerMongo()
 const prodRoute = Router()
 
@@ -28,6 +30,8 @@ prodRoute.get('/allProducts/:filtro?/:parametro?', async (req, res) => {
     const { limit, page, sort } = req.query
     const { filtro, parametro } = req.params
     try {
+        const user = req.session.user
+        const quantity = await newCart.quantityCart("65dbceb484d330ff7b488911")
         const prods = await newProduct.getProducts(limit, page, filtro, parametro, sort);
         const status = prods ? 'success' : 'error';
         const prevPage = !prods.hasPrevPage ? null : Number(prods.page) - 1;
@@ -47,7 +51,7 @@ prodRoute.get('/allProducts/:filtro?/:parametro?', async (req, res) => {
             nextLink
         }
         const pages = Array.from({ length: product.totalPages }, (_, i) => i + 1);
-        res.status(200).render('home.handlebars', { product, pages, filtro, parametro , limit: prods.limit, page })
+        res.status(200).render('home.handlebars', { product, pages, filtro, parametro, limit: prods.limit, page, quantity, user })
     } catch (error) {
         console.log('Error encontrado: \n', error);
     }
@@ -56,11 +60,13 @@ prodRoute.get('/allProducts/:filtro?/:parametro?', async (req, res) => {
 prodRoute.get('/:pid', async (req, res) => {
     const { pid } = req.params
     try {
+        const user = req.session.user
+        const quantity = await newCart.quantityCart("65dbceb484d330ff7b488911")
         const products = await newProduct.getProductsById(pid)
         if (!products) {
             res.status(404).render('error404.handlebars')
         } else {
-            res.status(200).render('product.handlebars', { products })
+            res.status(200).render('product.handlebars', { products, quantity, user })
         }
     } catch (error) {
         console.log('Error encontrado: \n', error);

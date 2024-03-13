@@ -13,15 +13,14 @@ cartRoute.post('/', async (req, res) => {
             res.status(201).send({ Msg: "El carrito fue creado con exito" });
         };
     } catch (err) {
-        res.status(400).send({
+        res.status(404).send({
             Msg: "Ocurrio un error al intentar crear el carrito",
         });
     };
 });
 //AGREGAR PRODUCTO AL CARRITO
 cartRoute.post('/:cid/products/:pid', async (req, res) => {
-    const { cid } = req.params;
-    const { pid } = req.params;
+    const { cid, pid } = req.params;
     try {
         const addProd = await newCart.addProduct(cid, pid);
         if (addProd) {
@@ -35,18 +34,24 @@ cartRoute.post('/:cid/products/:pid', async (req, res) => {
 cartRoute.get('/:cid', async (req, res) => {
     const { cid } = req.params;
     try {
+        const user = req.session.user
+        const userName = user.first_name.toUpperCase()
         const cart = await newCart.getCartProducts(cid);
         const products = cart.products
         if (products.length === 0) {
             res.status(200).render('cartEmpty.handlebars');
             console.log(`Msg: Carrito Vacio`);
         } else {
-            res.status(200).render('cart.handlebars', { products });
+            const quantity = await newCart.quantityCart(cid);
+            const totalPrice = await newCart.totalPrice(cid)
+            
+            res.status(200).render('cart.handlebars', { products, quantity, userName, user, totalPrice});
         };
     } catch (error) {
         console.log('Error encontrado: \n', error);
     };
 });
+
 //ELIMINAR PRODUCTO DEL CARRITO
 cartRoute.delete('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params;

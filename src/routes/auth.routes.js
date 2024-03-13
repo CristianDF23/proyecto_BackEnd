@@ -41,7 +41,7 @@ authRouter.post('/logUser', (req, res) => {
         res.redirect('/api/users/profileUser')
         console.log('Login Correcto');
     } else {
-        res.status(401).send('Usuario o contraseña incorrecto')
+        res.status(401).render('login.handlebars')
     }
 })
 
