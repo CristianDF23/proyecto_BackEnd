@@ -49,3 +49,9 @@ a {
     border-right: 2px solid black !important;
     transform: translate(191px, 4px);
 }
+
+.link:hover{
+    font-weight: bold;
+    border-bottom: 1px solid slategray;
+    transition: .3s;
+}

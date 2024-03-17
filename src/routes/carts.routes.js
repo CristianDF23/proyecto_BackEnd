@@ -2,7 +2,6 @@ import { Router } from "express";
 import CartsManagerMongo from "../dao/MongoDB/class/cartsManagerMongo.js";
 
 const newCart = new CartsManagerMongo();
-
 const cartRoute = Router();
 
 //CREAR CARRITO NUEVO
@@ -18,6 +17,7 @@ cartRoute.post('/', async (req, res) => {
         });
     };
 });
+
 //AGREGAR PRODUCTO AL CARRITO
 cartRoute.post('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params;
@@ -30,23 +30,28 @@ cartRoute.post('/:cid/products/:pid', async (req, res) => {
         res.status(400).send({ Msg: `Ocurrio un error al intentar agregar el producto al carrito ${error}` });
     };
 });
+
 //MOSTRAR CARRITO
 cartRoute.get('/:cid', async (req, res) => {
     const { cid } = req.params;
     try {
-        const user = req.session.user
-        const userName = user.first_name.toUpperCase()
+        const userInform = req.session.passport;
+        const userName = userInform ? userInform.user.first_name : null;
         const cart = await newCart.getCartProducts(cid);
-        const products = cart.products
+        const products = cart.products;
+        const quantity = await newCart.quantityCart(cid);
+        const totalPrice = await newCart.totalPrice(cid);
+
         if (products.length === 0) {
-            res.status(200).render('cartEmpty.handlebars');
+            res.status(200).render('cartEmpty.handlebars', { userInform });
             console.log(`Msg: Carrito Vacio`);
         } else {
-            const quantity = await newCart.quantityCart(cid);
-            const totalPrice = await newCart.totalPrice(cid)
-            
-            res.status(200).render('cart.handlebars', { products, quantity, userName, user, totalPrice});
-        };
+            if (!userInform || !userName) {
+                res.status(200).render('cart.handlebars', { products, quantity, totalPrice });
+            } else {
+                res.status(200).render('cart.handlebars', { products, quantity, userName: userName.toUpperCase(), totalPrice, userInform });
+            }
+        }
     } catch (error) {
         console.log('Error encontrado: \n', error);
     };
@@ -66,15 +71,16 @@ cartRoute.delete('/:cid/products/:pid', async (req, res) => {
         console.log('Error encontrado: \n', error);
     }
 });
+
 //ELIMINAR CARRITO
 cartRoute.delete('/:cid', async (req, res) => {
-    const {cid} = req.params
+    const { cid } = req.params
     try {
         const deleteCart = await newCart.deletCart(cid)
         if (deleteCart) {
-            res.status(200).send({Msg: 'Carrito vaciado con exito'})
-        }else{
-            res.status(404).send({Msg: 'No se pudo vaciar el carrito'})
+            res.status(200).send({ Msg: 'Carrito vaciado con exito' })
+        } else {
+            res.status(404).send({ Msg: 'No se pudo vaciar el carrito' })
         }
     } catch (error) {
         console.log('Error encontrado: \n', error);
@@ -85,7 +91,7 @@ cartRoute.delete('/deleteAllProducts/:cid', async (req, res) => {
     const { cid } = req.params
     try {
         const deleteProducts = await newCart.deleteAllProducts(cid)
-        if(deleteProducts){
+        if (deleteProducts) {
             res.status(200).render('cartEmpty.handlebars')
             console.log('Msg: Carrito Vacío');
         }
@@ -109,9 +115,9 @@ cartRoute.put('/:cid', async (req, res) => {
     }
 })
 //ACTUALIZAR LAS CANTIDADES DE LOS PRODUCTOS
-cartRoute.put('/:cid/product/:pid', async (req, res) => {
+cartRoute.put('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params
-    const {quantity} = req.body
+    const { quantity } = req.body
     try {
         const update = await newCart.updateQuantity(cid, pid, quantity);
         if (update) {

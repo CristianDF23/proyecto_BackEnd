@@ -5,12 +5,12 @@
             Get free delivery on orders over $60.000
         </h3>
         <div class="flex gap-4">
-            {{#if user}}
-            <a href="/api/auth/logoutUser" class="text-white hover:text-gray-400">Sing Out</a>
+            {{#if userInform}}
+            <a href="/api/auth/logout" class="text-white hover:text-gray-400">Sign Out</a>
             {{else}}
             <a href="/api/users/registerUser" class="text-white hover:text-gray-400">Create Account</a>
             <p class="text-white">|</p>
-            <a href="/api/users/loginUser" class="text-white hover:text-gray-400">Sing In</a>
+            <a href="/api/users/loginUser" class="text-white hover:text-gray-400">Sign In</a>
             {{/if}}
         </div>
     </div>
@@ -36,7 +36,9 @@
                     </svg>
                     <span class="sr-only">Notifications</span>
                     {{#if quantity}}
-                    <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -end-1 dark:border-gray-900">{{quantity}}</div>
+                    <div
+                        class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -end-1 dark:border-gray-900">
+                        {{quantity}}</div>
                     {{/if}}
                 </button></a>
             <button data-collapse-toggle="navbar-user" type="button"
@@ -56,23 +58,22 @@
                 class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li>
                     <a href="/api/products/allProducts/"
-                        class="block py-2 px-3 text-gray-900 rounded hover:font-semibold">Home</a>
+                        class="link block py-2 px-3 text-gray-900">HOME</a>
                 </li>
                 <li>
                     <a href="/api/products/allProducts/category/Zapatillas/"
-                        class="block py-2 px-3 text-gray-900 rounded hover:font-semibold">Zapatillas</a>
+                        class="link block py-2 px-3 text-gray-900">ZAPATILLAS</a>
                 </li>
                 <li>
                     <a href="/api/products/allProducts/category/Botines/"
-                        class="block py-2 px-3 text-gray-900 rounded hover:font-semibold">Botines</a>
+                        class="link block py-2 px-3 text-gray-900">BOTINES</a>
                 </li>
                 <li>
                     <a href="/api/products/allProducts/category/Indumentaria/"
-                        class="block py-2 px-3 text-gray-900 rounded hover:font-semibold">Indumentaria</a>
+                        class="link block py-2 px-3 text-gray-900">INDUMENTARIA</a>
                 </li>
                 <li>
-                    <a href="#"
-                        class="block py-2 px-3 text-gray-900 rounded hover:font-semibold">Contact</a>
+                    <a href="#" class="link block py-2 px-3 text-gray-900">CONTACTO</a>
                 </li>
             </ul>
         </div>

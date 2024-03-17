@@ -49,6 +49,7 @@ class ProductManagerMongo {
             }
         } catch (error) {
             console.log('Error encontrado: \n', error);
+            return false
         }
     }
 
@@ -63,6 +64,7 @@ class ProductManagerMongo {
             }
         } catch (error) {
             console.log('Error encontrado: \n', error);
+            return false
         }
     }
 
@@ -78,6 +80,7 @@ class ProductManagerMongo {
             }
         } catch (error) {
             console.log('Error encontrado: \n', error);
+            return false
         }
     }
 

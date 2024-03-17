@@ -7,9 +7,8 @@ import MongoStore from "connect-mongo";
 //Routes
 import prodRoute from "./routes/products.routes.js";
 import cartRoute from "./routes/carts.routes.js";
-import logRouter from "./routes/user.routes.js";
+import userRoute from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
-import sessionRoute from "./routes/session.routes.js";
 
 import { __dirname } from "../src/path.js"
 import path from "path";
@@ -18,7 +17,6 @@ import exphbs from 'express-handlebars';
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 import { initPassport } from "./config/passport.js";
 import passport from "passport";
-
 
 //SERVER EXPRESS
 const app = express()
@@ -42,7 +40,7 @@ app.use(session({
     }),
     secret: 'cFer212301Co',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
 }))
 
 initPassport();
@@ -54,9 +52,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/products', prodRoute)
 app.use('/api/carts', cartRoute)
-app.use('/api/users', logRouter)
+app.use('/api/users', userRoute)
 app.use('/api/auth', authRouter)
-app.use('/api/sessions', sessionRoute)
+
 
 
 app.listen(PORT, () => {

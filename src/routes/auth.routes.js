@@ -1,58 +1,36 @@
 import { Router } from 'express'
-import { v4 as uuidv4 } from 'uuid'
+import passport from 'passport'
 
 const authRouter = new Router()
 
-const users = []
-
-
-authRouter.post('/regisUser', (req, res) => {
-    const { email, password, first_name, last_name, phone, age } = req.body
-    let role = 'usuario'
-
-    if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-        role = 'admin'
-    }
-
-    const userNew = {
-        email,
-        password,
-        first_name,
-        last_name,
-        phone,
-        age,
-        role
-    }
-
-    req.session.user = userNew
-    userNew.id = uuidv4()
-    users.push(userNew)
-    res.redirect('/api/users/loginUser')
+authRouter.post('/register', passport.authenticate('register', { failureMessage: 'El usuario ya existe' }), (req, res) => {
+    return res.status(201).redirect('/api/users/loginUser')
 })
 
 
-authRouter.post('/logUser', (req, res) => {
-    let userNew = req.body
-    let userFound = users.find(user => {
-        return user.email == userNew.email && user.password == userNew.password
-    })
-    if (userFound) {
-        req.session.user = userFound
-        res.redirect('/api/users/profileUser')
-        console.log('Login Correcto');
-    } else {
-        res.status(401).render('login.handlebars')
-    }
+authRouter.post('/login', passport.authenticate('login', { failureMessage: 'Usuario y/o contraseña incorrectos' }), (req, res) => {
+    return res.status(201).redirect('/api/products/allProducts')
 })
 
-authRouter.get('/logoutUser', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            res.send('Error en logout')
-        } else {
+authRouter.get('/github', passport.authenticate('github', {}), (req, res) =>{});
+authRouter.get('/callbackGithub', passport.authenticate('github', {}), (req, res) =>{
+    req.session.user = req.user
+    console.log(req.session.user);
+    return res.status(201).redirect('/api/products/allProducts')
+});
+
+
+authRouter.get('/logout', (req, res) => {
+    try {
+        req.session.destroy(err => {
+            if (err) {
+                return res.send('Error en logout')
+            }
             res.redirect('/api/products/allProducts')
-        }
-    })
+        })
+    } catch (error) {
+        console.log('Error encontrado: \n', error);
+    }
 })
 
 export default authRouter

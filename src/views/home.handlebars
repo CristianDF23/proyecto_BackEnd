@@ -69,19 +69,19 @@
             Previous
         </a>
         <div>
-        {{#if filtro}}
-        {{#if parametro}}
-        {{#each pages}}
-        <a href="/api/products/allProducts/{{../filtro}}/{{../parametro}}/?limit={{../limit}}&page={{this}}"
-            class="px-4 py-2 text-m font-semibold text-gray-400 hover:bg-gray-50 ">{{this}}</a>
-        {{/each}}
-        {{/if}}
-        {{else}}
-        {{#each pages}}
-        <a href="/api/products/allProducts/?limit={{../limit}}&page={{this}}"
-            class="px-4 py-2 text-m font-semibold text-gray-400 hover:bg-gray-50  ">{{this}}</a>
-        {{/each}}
-        {{/if}}
+            {{#if filtro}}
+            {{#if parametro}}
+            {{#each pages}}
+            <a href="/api/products/allProducts/{{../filtro}}/{{../parametro}}/?limit={{../limit}}&page={{this}}"
+                class="px-4 py-2 text-m font-semibold text-gray-400 hover:bg-gray-50 ">{{this}}</a>
+            {{/each}}
+            {{/if}}
+            {{else}}
+            {{#each pages}}
+            <a href="/api/products/allProducts/?limit={{../limit}}&page={{this}}"
+                class="px-4 py-2 text-m font-semibold text-gray-400 hover:bg-gray-50  ">{{this}}</a>
+            {{/each}}
+            {{/if}}
         </div>
         <a href="{{product.nextLink}}" class="px-2 py-2 text-gray-400 font-semibold hover:bg-gray-50">
             <span>Next</span>

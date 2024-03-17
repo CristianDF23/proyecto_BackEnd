@@ -30,7 +30,7 @@ prodRoute.get('/allProducts/:filtro?/:parametro?', async (req, res) => {
     const { limit, page, sort } = req.query
     const { filtro, parametro } = req.params
     try {
-        const user = req.session.user
+        const userInform = req.session.passport
         const quantity = await newCart.quantityCart("65dbceb484d330ff7b488911")
         const prods = await newProduct.getProducts(limit, page, filtro, parametro, sort);
         const status = prods ? 'success' : 'error';
@@ -51,27 +51,29 @@ prodRoute.get('/allProducts/:filtro?/:parametro?', async (req, res) => {
             nextLink
         }
         const pages = Array.from({ length: product.totalPages }, (_, i) => i + 1);
-        res.status(200).render('home.handlebars', { product, pages, filtro, parametro, limit: prods.limit, page, quantity, user })
+        res.status(200).render('home.handlebars', { product, pages, filtro, parametro, limit: prods.limit, page, quantity, userInform })
     } catch (error) {
         console.log('Error encontrado: \n', error);
     }
 })
+
 //MOSTRAR UN PRODUCTO
 prodRoute.get('/:pid', async (req, res) => {
     const { pid } = req.params
     try {
-        const user = req.session.user
+        const userInform = req.session.passport
         const quantity = await newCart.quantityCart("65dbceb484d330ff7b488911")
         const products = await newProduct.getProductsById(pid)
         if (!products) {
             res.status(404).render('error404.handlebars')
         } else {
-            res.status(200).render('product.handlebars', { products, quantity, user })
+            res.status(200).render('product.handlebars', { products, quantity, userInform })
         }
     } catch (error) {
         console.log('Error encontrado: \n', error);
     }
 })
+
 //ELIMINAR PRODUCTO
 prodRoute.delete('/:pid', async (req, res) => {
     const { pid } = req.params
@@ -86,6 +88,7 @@ prodRoute.delete('/:pid', async (req, res) => {
         console.log('Error encontrado: \n', error);
     }
 })
+
 //ACTUALIZAR PRODUCTO
 prodRoute.put('/:pid', async (req, res) => {
     const { pid } = req.params
