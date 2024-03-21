@@ -13,7 +13,7 @@ a {
 
 .btn {
     color: rgb(240, 239, 239);
-    font-weight: 600;
+    font-weight:500;
     background-color: black !important;
     width: 383px;
     height: 43px;
@@ -52,6 +52,6 @@ a {
 
 .link:hover{
     font-weight: bold;
-    border-bottom: 1px solid slategray;
-    transition: .3s;
+    border-bottom: 2px solid slategray;
+    transition: .1s;
 }

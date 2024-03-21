@@ -36,20 +36,19 @@ cartRoute.get('/:cid', async (req, res) => {
     const { cid } = req.params;
     try {
         const userInform = req.session.passport;
-        const userName = userInform ? userInform.user.first_name : null;
         const cart = await newCart.getCartProducts(cid);
         const products = cart.products;
+        products._cartId = cid
         const quantity = await newCart.quantityCart(cid);
         const totalPrice = await newCart.totalPrice(cid);
-
         if (products.length === 0) {
             res.status(200).render('cartEmpty.handlebars', { userInform });
             console.log(`Msg: Carrito Vacio`);
         } else {
-            if (!userInform || !userName) {
+            if (!userInform) {
                 res.status(200).render('cart.handlebars', { products, quantity, totalPrice });
             } else {
-                res.status(200).render('cart.handlebars', { products, quantity, userName: userName.toUpperCase(), totalPrice, userInform });
+                res.status(200).render('cart.handlebars', { products, quantity, totalPrice, userInform });
             }
         }
     } catch (error) {

@@ -21,6 +21,11 @@ const UserSchema = new Schema(
         },
         age: {
             type: Number,
+        },
+        cart: {
+            type: Schema.Types.ObjectId,
+            ref: 'cart',
+            required: true
         }
     },
     {

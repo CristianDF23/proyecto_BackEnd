@@ -1,5 +1,8 @@
 import userModels from "../models/userModels.js"
 import { createHash, isValidatePassword } from "../../../utils/bcrypt.js"
+import CartsManagerMongo from "./cartsManagerMongo.js"
+
+const newCart = new CartsManagerMongo()
 
 class UserManagerMongo {
 
@@ -8,6 +11,7 @@ class UserManagerMongo {
             let user = await userModels.find()
             let existUser = user.find(u => u.email === userData.email)
             if (!existUser) {
+                const cart = await newCart.createCart()
                 let userNew = {
                     email: userData.email,
                     password: createHash(userData.password),
@@ -15,7 +19,8 @@ class UserManagerMongo {
                     last_name: userData.last_name,
                     phone: userData.phone,
                     age: userData.age,
-                    rol: 'Usuario'
+                    rol: 'Usuario',
+                    cart: cart._id
                 }
                 if (userData.email === 'adminCoder@coder.com' && userData.password === 'adminCod3r123') {
                     userNew.rol = 'Admin'

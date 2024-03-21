@@ -5,8 +5,8 @@ class CartsManagerMongo {
 
     async createCart() {
         try {
-            await cartsModels.create({})
-            return true
+            const newCart = await cartsModels.create({})
+            return newCart
         } catch (error) {
             console.log('Error encontrado: \n', error);
             return false

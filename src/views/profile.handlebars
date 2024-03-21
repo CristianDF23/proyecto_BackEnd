@@ -1,3 +1,22 @@
-<div class="mt-40 mb-40">
-    <h2 class="text-center mx-auto text-3xl font-semibold">Bienvenido <span class="text-4xl font-semibold text-indigo-700">{{user.first_name}} {{user.last_name}}</span></h2>
-</div>
+<section class="w-full h-screen">
+    <div class="ml-5">
+        <h2 class="text-2xl font-semibold uppercase">HOLA {{userInform.user.first_name}}</h2>
+    </div>
+    <ul class="flex mt-10 gap-5 justify-center">
+        <li><a href="/api/users/profileUser/cuenta" id="cuenta" class="link p-5 font-semibold text-gray-800">CUENTA</a>
+        </li>
+    </ul>
+    <hr class="mt-4">
+    <section class="flex flex-col w-1/2 mx-auto mt-10">
+        <h2 class="text-3xl font-semibold mb-10">MIS DATOS</h2>
+        <h2 class="text-3xl font-semibold mb-4">DETALLES</h2>
+        {{#if userInform}}
+        <p class="text-xl uppercase">{{userInform.user.first_name}}</p>
+        <p class="text-xl">{{userInform.user.phone}}</p>
+        <p class="text-xl">{{userInform.user.age}}</p>
+        <h2 class="text-3xl font-semibold mb-4 mt-10">DATOS DE ACCESO</h2>
+        <p class="text-xl uppercase">{{userInform.user.email}}</p>
+        <a href=""></a>
+        {{/if}}
+    </section>
+</section>

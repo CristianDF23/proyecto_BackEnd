@@ -3,7 +3,9 @@ import local from 'passport-local';
 import github from 'passport-github2';
 import UserManagerMongo from "../dao/MongoDB/class/userManagerMongo.js";
 import userModels from "../dao/MongoDB/models/userModels.js";
+import CartsManagerMongo from "../dao/MongoDB/class/cartsManagerMongo.js";
 
+const newCart = new CartsManagerMongo()
 const newUser = new UserManagerMongo()
 const LocalStrategy = local.Strategy;
 
@@ -49,15 +51,16 @@ export const initPassport = () => {
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
+                const cart = await newCart.createCart()
                 let {name, email} = profile._json
                 let user = await userModels.findOne({email})
-                console.log(profile);
                 if (!user) {
                     user = await userModels.create({
                         email: email,
                         first_name: name,
-                        github: profile,
-                        rol: "usuario"
+                        profile: profile,
+                        rol: "usuario",
+                        cart: cart._id
                     });   
                 }
                 done(null, user)

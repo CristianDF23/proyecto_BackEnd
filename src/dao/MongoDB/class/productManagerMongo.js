@@ -5,7 +5,6 @@ class ProductManagerMongo {
     async addProducts(product) {
         try {
             const existProduct = await productsModels.findOne({ code: product.code })
-            console.log(existProduct);
             if (!(product.title || product.description || product.price || product.code || product.stock || product.category)) {
                 return false
             } else if (existProduct) {

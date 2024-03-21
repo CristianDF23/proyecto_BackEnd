@@ -27,11 +27,35 @@ prodRoute.post('/', async (req, res) => {
 })
 //MOSTRAR TODOS LOS PRODUCTOS
 prodRoute.get('/allProducts/:filtro?/:parametro?', async (req, res) => {
-    const { limit, page, sort } = req.query
-    const { filtro, parametro } = req.params
+    const { limit, page, sort } = req.query;
+    const { filtro, parametro } = req.params;
+
     try {
-        const userInform = req.session.passport
-        const quantity = await newCart.quantityCart("65dbceb484d330ff7b488911")
+        if (!req.session || !req.session.passport || !req.session.passport.user) {
+            const prods = await newProduct.getProducts(limit, page, filtro, parametro, sort);
+            const status = prods ? 'success' : 'error';
+            const prevPage = !prods.hasPrevPage ? null : Number(prods.page) - 1;
+            const nextPage = !prods.hasNextPage ? null : Number(prods.page) + 1;
+            const prevLink = prevPage ? `?limit=${prods.limit}&page=${prevPage}` : null;
+            const nextLink = nextPage ? `?limit=${prods.limit}&page=${nextPage}` : null;
+            const product = {
+                status,
+                payload: prods.docs,
+                totalPages: prods.totalPages,
+                prevPage,
+                nextPage,
+                page: prods.page,
+                hasPrevPage: prods.hasPrevPage,
+                hasNextPage: prods.hasNextPage,
+                prevLink,
+                nextLink
+            };
+            const pages = Array.from({ length: product.totalPages }, (_, i) => i + 1);
+            res.status(200).render('home.handlebars', { product, pages, filtro, parametro, limit: prods.limit, page });
+            return;
+        }
+        const userInform = req.session.passport.user;
+        const cartId = userInform.cart;
         const prods = await newProduct.getProducts(limit, page, filtro, parametro, sort);
         const status = prods ? 'success' : 'error';
         const prevPage = !prods.hasPrevPage ? null : Number(prods.page) - 1;
@@ -49,30 +73,41 @@ prodRoute.get('/allProducts/:filtro?/:parametro?', async (req, res) => {
             hasNextPage: prods.hasNextPage,
             prevLink,
             nextLink
-        }
+        };
         const pages = Array.from({ length: product.totalPages }, (_, i) => i + 1);
-        res.status(200).render('home.handlebars', { product, pages, filtro, parametro, limit: prods.limit, page, quantity, userInform })
+        const quantity = await newCart.quantityCart(cartId);
+        res.status(200).render('home.handlebars', { product, pages, filtro, parametro, limit: prods.limit, page, userInform, quantity, cartId });
     } catch (error) {
         console.log('Error encontrado: \n', error);
     }
-})
+});
+
 
 //MOSTRAR UN PRODUCTO
 prodRoute.get('/:pid', async (req, res) => {
     const { pid } = req.params
     try {
-        const userInform = req.session.passport
-        const quantity = await newCart.quantityCart("65dbceb484d330ff7b488911")
+        let cartId = null; 
+        const userInform = req.session.passport;
+        if (userInform) {
+            cartId = userInform.user.cart;
+        }
+        let quantity = null;
+        if (cartId) {
+            quantity = await newCart.quantityCart(cartId); 
+        }
         const products = await newProduct.getProductsById(pid)
         if (!products) {
             res.status(404).render('error404.handlebars')
         } else {
-            res.status(200).render('product.handlebars', { products, quantity, userInform })
+            const url = `/api/carts/${cartId}/products/${pid}`
+            res.status(200).render('product.handlebars', { products, quantity, userInform, url,cartId })
         }
     } catch (error) {
         console.log('Error encontrado: \n', error);
     }
 })
+
 
 //ELIMINAR PRODUCTO
 prodRoute.delete('/:pid', async (req, res) => {

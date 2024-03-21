@@ -15,7 +15,6 @@ authRouter.post('/login', passport.authenticate('login', { failureMessage: 'Usua
 authRouter.get('/github', passport.authenticate('github', {}), (req, res) =>{});
 authRouter.get('/callbackGithub', passport.authenticate('github', {}), (req, res) =>{
     req.session.user = req.user
-    console.log(req.session.user);
     return res.status(201).redirect('/api/products/allProducts')
 });
 

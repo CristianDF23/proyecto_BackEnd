@@ -1,30 +1,39 @@
-<section class="w-5/6 flex border border-gray-400 rounded-lg mx-auto">
+<section class="w-5/6 flex mx-auto">
     <form action="/api/auth/login" method="post" class="w-1/2 px-20 py-20 mx-auto flex flex-col gap-2">
         <div class="mx-auto mb-10 flex flex-col items-center justify-center gap-2 ">
             <img class="w-20" src="/img/logo.png" alt="">
-            <h2 class="font-semibold text-2xl">Sign in to your account</h2>
+            <h2 class="font-semibold text-2xl">Inicia sesión en tu cuenta</h2>
         </div>
         <div class="relative z-0 w-full mb-10 group">
             <input type="email" name="email" id="email"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" " required />
             <label for="email"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email
-                address</label>
+            </label>
         </div>
         <div class="relative z-0 w-full mb-10 group">
             <input type="password" name="password" id="password"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" " required />
             <label for="password"
-                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contraseña</label>
         </div>
-        <div class="text-center">
-        <h2 class="text-l text-gray-500 mb-5">Don't you have an account?</h2>
-        <a href="/api/users/registerUser" class="text-l text-gray-800 hover:text-gray-300">Create Account</a>
+        <h2 class="text-l text-gray-500 mb-5 mx-auto">Iniciar sesión con GitHub</h2>
+        <a href="/api/auth/callbackGithub" class="mx-auto p-3 hover:bg-gray-100 cursor-pointer"><svg
+                class="w-[46px] h-[46px] text-gray-800 dark:text-white" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd"
+                    d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
+                    clip-rule="evenodd" />
+            </svg>
+        </a>
+        <div class="text-center mx-auto">
+            <h2 class="text-l text-gray-500 mb-5">No estas registrado?</h2>
+            <a href="/api/users/registerUser" class="text-l text-gray-800 hover:text-gray-300">Crear Cuenta</a>
         </div>
-        <button type="submit" class="btn mx-auto">Login</button>
+        <button type="submit" class="btn mx-auto">Iniciar Sesión</button>
     </form>
-    <div class="w-1/2 bg-[url('/img/imgUser.jpg')] bg-cover bg-center bg-no-repeat rounded-r-lg">
+    <div class="w-1/2 bg-[url('/img/imgUser.jpg')] bg-cover bg-center bg-no-repeat">
     </div>
 </section>
